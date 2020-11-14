@@ -1,9 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>Weather Dashboard</title>
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+		/>
 	</head>
-	<body></body>
+	<body>
+		<header>
+			<h1>Weather Dashboard</h1>
+		</header>
+
+		<section class="section">
+			<div class="container">
+				<div class="columns">
+					<div class="column is-one-quarter-tablet">
+						<div class="field has-addons">
+							<div class="control is-expanded">
+								<input
+									id="search-input"
+									class="input"
+									type="text"
+									placeholder="Location"
+								/>
+							</div>
+							<div class="control">
+								<button id="search-button" class="button is-primary">
+									Search
+								</button>
+							</div>
+						</div>
+						<div id="city-buttons">
+							<button
+								class="button is-fullwidth is-light mb-1"
+								data-city="Austin"
+							>
+								Austin
+							</button>
+							<button
+								class="button is-fullwidth is-light mb-1"
+								data-city="Chicago"
+							>
+								Chicago
+							</button>
+							<button
+								class="button is-fullwidth is-light mb-1"
+								data-city="New York"
+							>
+								New York
+							</button>
+							<button
+								class="button is-fullwidth is-light mb-1"
+								data-city="Orlando"
+							>
+								Orlando
+							</button>
+							<button
+								class="button is-fullwidth is-light mb-1"
+								data-city="San Francisco"
+							>
+								San Francisco
+							</button>
+							<button
+								class="button is-fullwidth is-light mb-1"
+								data-city="Seattle"
+							>
+								Seattle
+							</button>
+							<button
+								class="button is-fullwidth is-light mb-1"
+								data-city="Denver"
+							>
+								Denver
+							</button>
+							<button class="button is-fullwidth is-light" data-city="Atlanta">
+								Atlanta
+							</button>
+						</div>
+					</div>
+					<div class="column">
+						<div id="current-forecast">
+							<h2 id="location">
+								<span id="date"></span><span id="icon"></span>
+							</h2>
+							<p id="weather-info"></p>
+						</div>
+						<div id="five-day-forecast" class="columns"></div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</body>
 </html>
