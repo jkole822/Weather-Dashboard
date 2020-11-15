@@ -12,14 +12,14 @@
 	</head>
 	<body>
 		<header>
-			<h1>Weather Dashboard</h1>
+			<h1 class="has-text-centered">Weather Dashboard</h1>
 		</header>
 
 		<section class="section">
 			<div class="container">
 				<div class="columns">
 					<div class="column is-one-quarter-tablet">
-						<div class="field has-addons">
+						<form id="search-form" class="field has-addons">
 							<div class="control is-expanded">
 								<input
 									id="search-input"
@@ -29,11 +29,15 @@
 								/>
 							</div>
 							<div class="control">
-								<button id="search-button" class="button is-primary">
+								<button
+									id="search-button"
+									type="submit"
+									class="button is-primary"
+								>
 									Search
 								</button>
 							</div>
-						</div>
+						</form>
 						<div id="city-buttons">
 							<button
 								class="button is-fullwidth is-light mb-1"
@@ -87,6 +91,7 @@
 							<div id="location"></div>
 							<div id="weather-info"></div>
 						</div>
+						<h2 id="forecast-heading" class="has-text-centered"></h2>
 						<div id="five-day-forecast" class="columns"></div>
 					</div>
 				</div>
