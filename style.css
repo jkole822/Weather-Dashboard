@@ -5,6 +5,7 @@ body {
 	background-size: cover;
 	background-position: center;
 	background-attachment: fixed;
+	min-height: 100vh;
 }
 
 .column {
@@ -60,10 +61,6 @@ header {
 }
 
 @media only screen and (min-width: 768px) {
-	body {
-		height: 100vh;
-	}
-
 	/* Search Column */
 	#search-column {
 		margin-right: 1.25rem;

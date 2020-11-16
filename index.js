@@ -73,7 +73,7 @@ const renderWeather = (location, latitude, longitude) => {
 		const iconImage = $("<img>")
 			.attr(
 				"src",
-				`http://openweathermap.org/img/wn/${currentWeatherIcon}@2x.png`
+				`https://openweathermap.org/img/wn/${currentWeatherIcon}@2x.png`
 			)
 			.css("height", "2.5rem");
 		const temperatureEl = $("<p>").html(
@@ -138,7 +138,7 @@ const renderWeather = (location, latitude, longitude) => {
 			const dateEl = $("<p>").text(forecastDate);
 			const dailyIconImage = $("<img>").attr(
 				"src",
-				`http://openweathermap.org/img/wn/${forecastWeatherIcon}@2x.png`
+				`https://openweathermap.org/img/wn/${forecastWeatherIcon}@2x.png`
 			);
 			const hiTempEl = $("<p>").html(`High: ${forecastHighTemperature} &deg;F`);
 			const loTempEl = $("<p>").html(`Low: ${forecastLowTemperature} &deg;F`);
