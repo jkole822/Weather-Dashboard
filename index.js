@@ -2,6 +2,10 @@ const key = "e56581764b06baf1e8d2ec882f669384";
 const baseURL = `https://api.openweathermap.org/data/2.5/weather?appid=${key}&units=imperial`;
 const DateTime = luxon.DateTime;
 
+// Use OpenWeatherMap's GeoCoding Feature via Current Weather Data route
+// to retrieve latitude, longitude, and city name based on a location
+// provided from the #search-form or #city-buttons to be passed onto
+// renderWeather.
 const getCoords = location => {
 	const url = `${baseURL}&q=${location}`;
 
@@ -16,19 +20,24 @@ const getCoords = location => {
 	});
 };
 
+// Renders weather information to the display column based
+// on the provided location, latitude, and longitude.
 const renderWeather = (location, latitude, longitude) => {
+	// Empty out display column on a new search.
 	$("#location").empty();
 	$("#weather-info").empty();
 	$("#five-day-forecast").empty();
 
+	// Use OpenWeatherMap's One Call API to retrieve data.
 	const forecastURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly,alerts&appid=${key}&units=imperial`;
 
 	$.ajax({
 		url: forecastURL,
 		method: "GET",
 	}).then(forecastResponse => {
-		console.log(forecastResponse);
-
+		// ---------------- CURRENT WEATHER -----------------------
+		// Data Variables
+		// ========================================================
 		const {
 			weather,
 			temp: currentTemp,
@@ -44,8 +53,15 @@ const renderWeather = (location, latitude, longitude) => {
 			zone: currentTimezone,
 		}).toFormat("f");
 
-		const locationHeader = $("<h2>").css("display", "inline");
+		// Elements
+		// ========================================================
+		const locationHeader = $("<h2>").addClass(
+			"is-size-5 has-text-weight-semibold"
+		);
 
+		// If rendering using response from navigator.geolocation,
+		// pass in generic title for location heading, else pass in
+		// the provided location argument.
 		if (location) {
 			locationHeader.text(location);
 		} else {
@@ -71,21 +87,23 @@ const renderWeather = (location, latitude, longitude) => {
 		const uvIndexSpan = $("<span>").attr("id", "uvIndex").text(currentUvIndex);
 		uvIndexEl.append(uvIndexSpan);
 
+		// Conditionally render the background color of the uv index span
+		// based on the value of the response uv index
 		if (0 < currentUvIndex && currentUvIndex < 3) {
-			uvIndexSpan.css("background", "green");
+			uvIndexSpan.css("background", "hsl(141, 71%, 48%)");
 		} else if (3 < currentUvIndex && currentUvIndex < 6) {
-			uvIndexSpan.css("background", "yellow").css("color", "#4A4A4A");
+			uvIndexSpan
+				.css("background", "hsl(48, 100%, 67%)")
+				.css("color", "#4A4A4A");
 		} else if (6 < currentUvIndex && currentUvIndex < 8) {
 			uvIndexSpan.css("background", "orange");
 		} else {
-			uvIndexSpan.css("background", "red");
+			uvIndexSpan.css("background", "hsl(348, 100%, 61%)");
 		}
 
-		$("#location")
-			.css("display", "flex")
-			.css("align-items", "center")
-			.append(locationHeader)
-			.append(iconImage);
+		// Append Elements to HTML document
+		// ========================================================
+		$("#location").append(locationHeader).append(iconImage);
 
 		$("#weather-info")
 			.append(temperatureEl)
@@ -93,9 +111,14 @@ const renderWeather = (location, latitude, longitude) => {
 			.append(windSpeedEl)
 			.append(uvIndexEl);
 
+		// ---------------- FIVE DAY FORECAST ---------------------
+		// Render heading only when other data is loaded
 		$("#forecast-heading").text("Five Day Forecast");
 
+		// Render data for five days after the current day
 		for (let i = 1; i < 6; i++) {
+			// Data Variables
+			// ========================================================
 			const {
 				temp,
 				humidity: forecastHumidity,
@@ -110,6 +133,8 @@ const renderWeather = (location, latitude, longitude) => {
 			const forecastLowTemperature = temp.min;
 			const forecastWeatherIcon = weather[0].icon;
 
+			// Elements
+			// ========================================================
 			const dateEl = $("<p>").text(forecastDate);
 			const dailyIconImage = $("<img>").attr(
 				"src",
@@ -119,8 +144,13 @@ const renderWeather = (location, latitude, longitude) => {
 			const loTempEl = $("<p>").html(`Low: ${forecastLowTemperature} &deg;F`);
 			const dailyHumidityEl = $("<p>").text(`Humidity: ${forecastHumidity}%`);
 
+			// Append Elements to HTML document
+			// ========================================================
 			const forecastEl = $("<div>")
 				.addClass("column")
+				.addClass(
+					"has-background-grey has-text-centered has-text-white-ter daily-forecast"
+				)
 				.append(dateEl)
 				.append(dailyIconImage)
 				.append(hiTempEl)
@@ -132,17 +162,22 @@ const renderWeather = (location, latitude, longitude) => {
 	});
 };
 
+// Event Listeners
+// ========================================================
+// Search Form
 $("#search-form").submit(e => {
 	e.preventDefault();
 	const location = $("#search-input").val();
 	getCoords(location);
 });
 
+// Quick Search
 $("#city-buttons").click(e => {
 	const location = e.target.getAttribute("data-city");
 	getCoords(location);
 });
 
+// Auto-render Current Location Information
 $("document").ready(() => {
 	navigator.geolocation.getCurrentPosition(response => {
 		const latitude = response.coords.latitude;
@@ -150,3 +185,18 @@ $("document").ready(() => {
 		renderWeather(null, latitude, longitude);
 	});
 });
+
+// Media Query
+// ========================================================
+// Center current forecast text on small screens
+const mediaQuery = window.matchMedia("(min-width: 768px)");
+
+function handleWindowChange(e) {
+	if (e.matches) {
+		$("#current-forecast").removeClass("has-text-centered");
+	} else {
+		$("#current-forecast").addClass("has-text-centered");
+	}
+}
+
+mediaQuery.addListener(handleWindowChange);

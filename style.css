@@ -1,5 +1,93 @@
+/* General Styles */
+
+body {
+	background-image: url("./images/background-image.jpg");
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+}
+
+.column {
+	border-radius: 0.5rem;
+}
+
+header {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 7vh;
+}
+
+/* Search Column */
+
+/* Remove city buttons on small screens */
+#search-column {
+	margin-left: 3rem;
+	margin-right: 3rem;
+	margin-bottom: 1.25rem;
+}
+
+#city-buttons {
+	display: none;
+}
+
+/* Display Column */
+#display-column {
+	margin-left: 3rem;
+	margin-right: 3rem;
+}
+
+#location {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 #uvIndex {
 	color: white;
-	border-radius: 10px;
+	border-radius: 0.75rem;
 	padding: 0.3rem;
+}
+
+.daily-forecast {
+	margin-left: 1.25rem;
+	margin-right: 1.25rem;
+	margin-bottom: 1.25rem;
+}
+
+.daily-forecast:last-child {
+	margin-right: 1.25rem;
+}
+
+@media only screen and (min-width: 768px) {
+	body {
+		height: 100vh;
+	}
+
+	/* Search Column */
+	#search-column {
+		margin-right: 1.25rem;
+		margin-bottom: 0;
+	}
+
+	#city-buttons {
+		display: block;
+	}
+
+	/* Display Column */
+	#display-column {
+		margin-left: 0;
+	}
+
+	#location {
+		justify-content: start;
+	}
+
+	.daily-forecast {
+		margin-left: 0;
+	}
+
+	.daily-forecast:first-child {
+		margin-left: 1.25rem;
+	}
 }
