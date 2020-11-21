@@ -168,6 +168,7 @@ const renderWeather = (location, latitude, longitude) => {
 $("#search-form").submit(e => {
 	e.preventDefault();
 	const location = $("#search-input").val();
+	localStorage.setItem("location", location);
 	getCoords(location);
 });
 
@@ -179,11 +180,15 @@ $("#city-buttons").click(e => {
 
 // Auto-render Current Location Information
 $("document").ready(() => {
-	navigator.geolocation.getCurrentPosition(response => {
-		const latitude = response.coords.latitude;
-		const longitude = response.coords.longitude;
-		renderWeather(null, latitude, longitude);
-	});
+	if (localStorage.getItem("location")) {
+		getCoords(localStorage.getItem("location"));
+	} else {
+		navigator.geolocation.getCurrentPosition(response => {
+			const latitude = response.coords.latitude;
+			const longitude = response.coords.longitude;
+			renderWeather(null, latitude, longitude);
+		});
+	}
 });
 
 // Media Query
