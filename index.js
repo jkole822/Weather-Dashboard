@@ -175,6 +175,7 @@ $("#search-form").submit(e => {
 // Quick Search
 $("#city-buttons").click(e => {
 	const location = e.target.getAttribute("data-city");
+	localStorage.setItem("location", location);
 	getCoords(location);
 });
 
