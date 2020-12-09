@@ -196,7 +196,7 @@ $("#search-form").submit(e => {
 			localStorage.setItem("locations", JSON.stringify(localStorageLocations));
 		}
 
-		addToHistory(location);
+		addToHistory(formatLocation);
 		getCoords(location);
 	} else {
 		navigator.geolocation.getCurrentPosition(response => {
@@ -220,20 +220,24 @@ $("#city-buttons").click(e => {
 // Auto-render Current Location Information
 $("document").ready(() => {
 	const localStorageLocations = JSON.parse(localStorage.getItem("locations"));
-	localStorageLocations.forEach(location => {
-		addToHistory(location);
-	});
-	navigator.geolocation.getCurrentPosition(response => {
-		const latitude = response.coords.latitude;
-		const longitude = response.coords.longitude;
-		renderWeather(null, latitude, longitude);
-	});
+	if (localStorageLocations) {
+		localStorageLocations.forEach(location => {
+			addToHistory(location);
+		});
+		const clearBtn = $('<button>').attr('id', 'clear-history').addClass('button is-fullwidth is-dark mb-1').text('Clear');
+			$('#city-buttons').append(clearBtn);
+		navigator.geolocation.getCurrentPosition(response => {
+			const latitude = response.coords.latitude;
+			const longitude = response.coords.longitude;
+			renderWeather(null, latitude, longitude);
+		});
+	}
 });
 
 // Clear History
 $('#clear-history').click(() => {
 	localStorage.setItem('locations', null);
-	$('#city-buttons').empty();
+	$("#city-buttons").empty();
 })
 
 // Media Query
