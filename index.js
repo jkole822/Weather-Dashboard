@@ -207,9 +207,9 @@ $("#search-form").submit(e => {
 			}
 		}
 		
-		$("#search-input").val('');
 		if (!localStorageLocations.includes(formatLocation)) addToHistory(formatLocation);
 		getCoords(location);
+		$("#search-input").val('');
 	} else {
 		navigator.geolocation.getCurrentPosition(response => {
 		const latitude = response.coords.latitude;
