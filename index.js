@@ -2,6 +2,13 @@ const key = "e56581764b06baf1e8d2ec882f669384";
 const baseURL = `https://api.openweathermap.org/data/2.5/weather?appid=${key}&units=imperial`;
 const DateTime = luxon.DateTime;
 
+// Helper function to capitalize first letter of `word`.
+const capitalize = word => {
+	const wordArr = word.split('');
+	wordArr[0] = word[0].toUpperCase();
+	return wordArr.join('')
+}
+
 // Use OpenWeatherMap's GeoCoding Feature via Current Weather Data route
 // to retrieve latitude, longitude, and city name based on a location
 // provided from the #search-form or #city-buttons to be passed onto
@@ -177,17 +184,28 @@ const renderWeather = (location, latitude, longitude) => {
 // Search Form
 $("#search-form").submit(e => {
 	e.preventDefault();
-	const location = $("#search-input").val();
-	let localStorageLocations = JSON.parse(localStorage.getItem("locations"));
-	if (!localStorageLocations) {
-		localStorage.setItem("locations", JSON.stringify([location]));
-	} else {
-		localStorageLocations.push(location);
-		localStorage.setItem("locations", JSON.stringify(localStorageLocations));
-	}
+	const location = $("#search-input").val().trim();
+	if (location) {
+		const formatLocation = capitalize(location);
+		const localStorageLocations = JSON.parse(localStorage.getItem("locations"));
+		if (!localStorageLocations) {
+			localStorage.setItem("locations", JSON.stringify([formatLocation]));
+			const clearBtn = $('<button>').attr('id', 'clear-history').text('Clear');
+			$('#city-buttons').append(clearBtn);
+		} else {
+			localStorageLocations.push(formatLocation);
+			localStorage.setItem("locations", JSON.stringify(localStorageLocations));
+		}
 
-	addToHistory(location);
-	getCoords(location);
+		addToHistory(location);
+		getCoords(location);
+	} else {
+		navigator.geolocation.getCurrentPosition(response => {
+		const latitude = response.coords.latitude;
+		const longitude = response.coords.longitude;
+		renderWeather(null, latitude, longitude);
+	});
+	}
 });
 
 // Quick Search
@@ -209,6 +227,12 @@ $("document").ready(() => {
 		renderWeather(null, latitude, longitude);
 	});
 });
+
+// Clear History
+$('#clear-history').click(() => {
+	localStorage.setItem('locations', JSON.stringify([]));
+	$('#city-buttons').empty();
+})
 
 // Media Query
 // ========================================================
