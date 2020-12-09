@@ -180,6 +180,13 @@ const renderWeather = (location, latitude, longitude) => {
 
 // Event Listeners
 // ========================================================
+// Clear History
+$('#clear-history').click(() => {
+	console.log('test')
+	localStorage.setItem('locations', null);
+	$("#city-buttons").empty();
+});
+
 // Search Form
 $("#search-form").submit(e => {
 	e.preventDefault();
@@ -209,7 +216,6 @@ $("#search-form").submit(e => {
 
 // Quick Search
 $("#city-buttons").click(e => {
-	console.log(e.target.id)
 	if (e.target.id !== 'clear-history') {
 		const location = e.target.getAttribute("data-city");
 
@@ -233,12 +239,6 @@ $("document").ready(() => {
 		});
 	}
 });
-
-// Clear History
-$('#clear-history').click(() => {
-	localStorage.setItem('locations', null);
-	$("#city-buttons").empty();
-})
 
 // Media Query
 // ========================================================
