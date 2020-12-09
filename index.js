@@ -198,16 +198,17 @@ $("#search-form").submit(e => {
 		const localStorageLocations = JSON.parse(localStorage.getItem("locations"));
 		if (!localStorageLocations) {
 			localStorage.setItem("locations", JSON.stringify([formatLocation]));
+			addToHistory(formatLocation);
 			const clearBtn = $('<button>').attr('id', 'clear-history').addClass('button is-fullwidth is-dark mb-1').text('Clear');
 			$('#city-buttons').append(clearBtn);
 		} else {
 			if (!localStorageLocations.includes(formatLocation)) {
 				localStorageLocations.push(formatLocation);
 				localStorage.setItem("locations", JSON.stringify(localStorageLocations));
+				addToHistory(formatLocation);
 			}
 		}
 		
-		if (!localStorageLocations.includes(formatLocation)) addToHistory(formatLocation);
 		getCoords(location);
 		$("#search-input").val('');
 	} else {
