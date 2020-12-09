@@ -180,13 +180,6 @@ const renderWeather = (location, latitude, longitude) => {
 
 // Event Listeners
 // ========================================================
-// Clear History
-$('#clear-history').click(() => {
-	console.log('test')
-	localStorage.setItem('locations', null);
-	$("#city-buttons").empty();
-});
-
 // Search Form
 $("#search-form").submit(e => {
 	e.preventDefault();
@@ -214,16 +207,19 @@ $("#search-form").submit(e => {
 	}
 });
 
-// Quick Search
+// Quick Search & Clear History
 $("#city-buttons").click(e => {
 	if (e.target.id !== 'clear-history') {
 		const location = e.target.getAttribute("data-city");
 
 		getCoords(location);
+	} else {
+		localStorage.setItem('locations', null);
+		$("#city-buttons").empty();
 	}
 });
 
-// Auto-render Current Location Information
+// Auto-render Current Location Information and History Sidebar
 $("document").ready(() => {
 	const localStorageLocations = JSON.parse(localStorage.getItem("locations"));
 	if (localStorageLocations) {
@@ -232,12 +228,13 @@ $("document").ready(() => {
 		});
 		const clearBtn = $('<button>').attr('id', 'clear-history').addClass('button is-fullwidth is-dark mb-1').text('Clear');
 			$('#city-buttons').append(clearBtn);
-		navigator.geolocation.getCurrentPosition(response => {
+		
+	}
+	navigator.geolocation.getCurrentPosition(response => {
 			const latitude = response.coords.latitude;
 			const longitude = response.coords.longitude;
 			renderWeather(null, latitude, longitude);
 		});
-	}
 });
 
 // Media Query
