@@ -35,6 +35,7 @@ const renderWeather = (location, latitude, longitude) => {
 		url: forecastURL,
 		method: "GET",
 	}).then(forecastResponse => {
+		console.log(forecastResponse);
 		// ---------------- CURRENT WEATHER -----------------------
 		// Data Variables
 		// ========================================================
@@ -168,28 +169,23 @@ const renderWeather = (location, latitude, longitude) => {
 $("#search-form").submit(e => {
 	e.preventDefault();
 	const location = $("#search-input").val();
-	localStorage.setItem("location", location);
 	getCoords(location);
 });
 
 // Quick Search
 $("#city-buttons").click(e => {
 	const location = e.target.getAttribute("data-city");
-	localStorage.setItem("location", location);
+
 	getCoords(location);
 });
 
 // Auto-render Current Location Information
 $("document").ready(() => {
-	if (localStorage.getItem("location")) {
-		getCoords(localStorage.getItem("location"));
-	} else {
-		navigator.geolocation.getCurrentPosition(response => {
-			const latitude = response.coords.latitude;
-			const longitude = response.coords.longitude;
-			renderWeather(null, latitude, longitude);
-		});
-	}
+	navigator.geolocation.getCurrentPosition(response => {
+		const latitude = response.coords.latitude;
+		const longitude = response.coords.longitude;
+		renderWeather(null, latitude, longitude);
+	});
 });
 
 // Media Query
