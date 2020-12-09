@@ -209,9 +209,11 @@ $("#search-form").submit(e => {
 
 // Quick Search
 $("#city-buttons").click(e => {
-	const location = e.target.getAttribute("data-city");
+	if (e.target.getAttribute('id') !== 'clear-history') {
+		const location = e.target.getAttribute("data-city");
 
-	getCoords(location);
+		getCoords(location);
+	}
 });
 
 // Auto-render Current Location Information
