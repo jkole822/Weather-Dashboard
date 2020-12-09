@@ -229,7 +229,7 @@ $("document").ready(() => {
 
 // Clear History
 $('#clear-history').click(() => {
-	localStorage.setItem('locations', JSON.stringify([]));
+	localStorage.setItem('locations', null);
 	$('#city-buttons').empty();
 })
 
