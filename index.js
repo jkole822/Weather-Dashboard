@@ -51,7 +51,6 @@ const renderWeather = (location, latitude, longitude) => {
 		url: forecastURL,
 		method: "GET",
 	}).then(forecastResponse => {
-		console.log(forecastResponse);
 		// ---------------- CURRENT WEATHER -----------------------
 		// Data Variables
 		// ========================================================
@@ -190,7 +189,7 @@ $("#search-form").submit(e => {
 		const localStorageLocations = JSON.parse(localStorage.getItem("locations"));
 		if (!localStorageLocations) {
 			localStorage.setItem("locations", JSON.stringify([formatLocation]));
-			const clearBtn = $('<button>').attr('id', 'clear-history').text('Clear');
+			const clearBtn = $('<button>').attr('id', 'clear-history').addClass('button is-fullwidth is-dark mb-1').text('Clear');
 			$('#city-buttons').append(clearBtn);
 		} else {
 			localStorageLocations.push(formatLocation);
