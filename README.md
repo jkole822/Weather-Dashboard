@@ -15,3 +15,16 @@ Weather Dashboard that displays the current weather and five-day forecast. When 
 ### Display on Small Screens
 
 ![Display on Small Screens](images/display-small-screen.png)
+
+## Technologies
+- HTML
+- CSS
+- Bulma
+- JavaScript
+- jQuery
+
+## License
+MIT
+
+## Contact
+Email: jkole822@gmail.com
