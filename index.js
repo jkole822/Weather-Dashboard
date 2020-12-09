@@ -20,6 +20,15 @@ const getCoords = location => {
 	});
 };
 
+const addToHistory = location => {
+	const historyButton = $("<button>")
+		.addClass("button is-fullwidth is-dark mb-1")
+		.attr("data-city", location)
+		.text(location);
+
+	$("#city-buttons").append(historyButton);
+};
+
 // Renders weather information to the display column based
 // on the provided location, latitude, and longitude.
 const renderWeather = (location, latitude, longitude) => {
@@ -169,6 +178,15 @@ const renderWeather = (location, latitude, longitude) => {
 $("#search-form").submit(e => {
 	e.preventDefault();
 	const location = $("#search-input").val();
+	let localStorageLocations = JSON.parse(localStorage.getItem("locations"));
+	if (!localStorageLocations) {
+		localStorage.setItem("locations", JSON.stringify([location]));
+	} else {
+		localStorageLocations.push(location);
+		localStorage.setItem("locations", JSON.stringify(localStorageLocations));
+	}
+
+	addToHistory(location);
 	getCoords(location);
 });
 
@@ -181,6 +199,10 @@ $("#city-buttons").click(e => {
 
 // Auto-render Current Location Information
 $("document").ready(() => {
+	const localStorageLocations = JSON.parse(localStorage.getItem("locations"));
+	localStorageLocations.forEach(location => {
+		addToHistory(location);
+	});
 	navigator.geolocation.getCurrentPosition(response => {
 		const latitude = response.coords.latitude;
 		const longitude = response.coords.longitude;
