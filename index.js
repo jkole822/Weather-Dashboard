@@ -33,7 +33,7 @@ const addToHistory = location => {
 		.attr("data-city", location)
 		.text(location);
 
-	$("#city-buttons").append(historyButton);
+	$("#city-buttons").prepend(historyButton);
 };
 
 // Renders weather information to the display column based
