@@ -208,7 +208,7 @@ $("#search-form").submit(e => {
 		}
 		
 		$("#search-input").val('');
-		addToHistory(formatLocation);
+		if (!localStorageLocations.includes(formatLocation)) addToHistory(formatLocation);
 		getCoords(location);
 	} else {
 		navigator.geolocation.getCurrentPosition(response => {
