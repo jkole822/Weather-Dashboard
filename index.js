@@ -209,8 +209,8 @@ $("#search-form").submit(e => {
 
 // Quick Search
 $("#city-buttons").click(e => {
-	console.log(e.target.getAttribute('id')
-	if (e.target.getAttribute('id') !== 'clear-history') {
+	console.log(e.target.id)
+	if (e.target.id !== 'clear-history') {
 		const location = e.target.getAttribute("data-city");
 
 		getCoords(location);
