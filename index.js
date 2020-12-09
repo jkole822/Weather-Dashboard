@@ -3,10 +3,19 @@ const baseURL = `https://api.openweathermap.org/data/2.5/weather?appid=${key}&un
 const DateTime = luxon.DateTime;
 
 // Helper function to capitalize first letter of `word`.
-const capitalize = word => {
-	const wordArr = word.split('');
-	wordArr[0] = word[0].toUpperCase();
-	return wordArr.join('')
+const capitalize = location => {
+	formattedWords = [];
+	
+	const words = location.split(' ');
+	
+	words.forEach(word => {
+		const lowercaseWord = word.toLowerCase();
+		const wordArr = lowercaseWord.split('');
+		wordArr[0] = wordArr[0].toUpperCase();
+		formattedWords.push(wordArr.join(''));
+	});
+	
+	return formattedWords.join(' ');
 }
 
 // Use OpenWeatherMap's GeoCoding Feature via Current Weather Data route
@@ -192,8 +201,10 @@ $("#search-form").submit(e => {
 			const clearBtn = $('<button>').attr('id', 'clear-history').addClass('button is-fullwidth is-dark mb-1').text('Clear');
 			$('#city-buttons').append(clearBtn);
 		} else {
-			localStorageLocations.push(formatLocation);
-			localStorage.setItem("locations", JSON.stringify(localStorageLocations));
+			if (!localStorageLocations.includes(formatLocation)) {
+				localStorageLocations.push(formatLocation);
+				localStorage.setItem("locations", JSON.stringify(localStorageLocations));
+			}
 		}
 		
 		$("#search-input").val('');
