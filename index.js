@@ -195,7 +195,8 @@ $("#search-form").submit(e => {
 			localStorageLocations.push(formatLocation);
 			localStorage.setItem("locations", JSON.stringify(localStorageLocations));
 		}
-
+		
+		$("#search-input").val('');
 		addToHistory(formatLocation);
 		getCoords(location);
 	} else {
